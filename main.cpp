@@ -1,4 +1,7 @@
 #include <iostream>
+#include <unistd.h>
+#include <iomanip>
+
 #include <thread>
 #include <mutex>
 
@@ -14,17 +17,36 @@
 #include "config_parser.h"
 
 
-std::list<std::vector<size_t>> block;
+
 
 
 std::vector<std::thread> threadA;
 static std::mutex thrA_mut;
-void Generate( size_t idx)
+
+//template <typename Type>
+
+
+void Generate( size_t block_count, size_t size)
 {
-    std::lock_guard<std::mutex> guard(thrA_mut);
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::cout << "Start thread " << idx << ", random=" << gen() << std::endl;
+
+    std::list<std::vector<uint8_t>> blocks;
+
+    blocks.resize(block_count);
+    for(auto& block:blocks)
+    {
+        block.resize(size);
+        for(auto& elem:block)
+            elem = gen();
+    }
+
+    std::lock_guard<std::mutex> guard(thrA_mut);
+    std::cout << "Block[" << block_count << "][" << size << "]:" << std::endl;
+    for(const auto block:blocks)
+        for(const auto elem:block)
+            std::cout << std::showbase << std::hex << std::setw(2) << static_cast<size_t>(elem) << " ";
+    std::cout << std::endl;
 
 }
 
@@ -54,7 +76,7 @@ int main(int argc, char **argv){
     for (auto& thr:threadA)
     {
         static size_t idx(0);
-        thr = std::thread(&Generate, ++idx);
+        thr = std::thread(&Generate, block_count, block_size);
     }
 
 
