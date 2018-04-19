@@ -9,3 +9,6 @@ SOURCES += \
 
 HEADERS += \
     config_parser.h
+
+DISTFILES += \
+    README.md
