@@ -11,8 +11,7 @@
 #include "config_parser.h"
 
 
-std::vector<ThreadA*> thrA;
-std::vector<ThreadB*> thrB;
+
 
 
 static _tblocks blocks;
@@ -22,6 +21,10 @@ static _tblocks blocks;
 int main(int argc, char **argv){
 
     ConfigParser config(argc, argv);
+
+    std::vector<ThreadA*> thrA;
+    std::vector<ThreadB*> thrB;
+
 
 
     thrA.resize(config.GetThreadAcount());
@@ -46,16 +49,7 @@ int main(int argc, char **argv){
     {
         delete thr;
     }
-  //  ThreadA thrA = new ThreadA(&blocks, config.GetBlockCount(), config.GetBlockSize());
 
-
-//    for (auto& thr:threadA)
-//        if(thr.joinable())
-//            thr.join();
-
-//    for (auto& thr:threadB)
-//        if(thr.joinable())
-//            thr.join();
 
     for(const auto block:blocks)
     {
@@ -65,6 +59,8 @@ int main(int argc, char **argv){
             std::cout << std::showbase << std::hex << std::setw(2) << static_cast<size_t>(elem) << " ";
         std::cout << std::endl;
     }
+
+
     return 0;
 }
 

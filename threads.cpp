@@ -31,7 +31,7 @@ void ThreadA::proccess()
             elem = gen();
 
         print_mutex.lock();
-        std::cout << "ThreadA#" << std::this_thread::get_id() << " generate" << std::endl;
+        std::cout << "ThreadA#" << std::dec << std::this_thread::get_id() << " generate" << std::endl;
         print_mutex.unlock();
 
         add_mutex.lock();
