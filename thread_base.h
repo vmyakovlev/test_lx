@@ -6,16 +6,28 @@
 class ThreadBase
 {
 private:
-    std::thread thr;
+    std::thread m_thr;
 public:
-    ThreadBase()
+    bool m_stop;
+    ThreadBase():
+    m_stop(false)
     {
-        thr = std::thread(&ThreadBase::proccess, this);
+        m_thr = std::thread(&ThreadBase::proccess, this);
+    }
+    virtual void Wait()
+    {
+        if(m_thr.joinable())
+            m_thr.join();
+    }
+    virtual Stop()
+    {
+        m_stop = true;
     }
     virtual ~ThreadBase()
     {
-        if(thr.joinable())
-            thr.join();
+        m_stop=true;
+        if(m_thr.joinable())
+            m_thr.join();
     }
     virtual void proccess()= 0;
 
