@@ -51,7 +51,7 @@ int main(int argc, char **argv){
     size_t cur_idx(0);
     while (cur_idx<config.GetBlockCount())
     {
-        for (auto crcs:crcs_per_block)
+        for (auto& crcs:crcs_per_block)
         {
             if(crcs.second.size()==config.GetThreadBcount())
             {
