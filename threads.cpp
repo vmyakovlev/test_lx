@@ -14,12 +14,6 @@ ThreadA::ThreadA(_tblocks& blocks, size_t block_count, size_t size):
 }
 
 //*************************************************************************************
-ThreadA::~ThreadA()
-{
-
-}
-
-//*************************************************************************************
 void ThreadA::proccess()
 {
     std::random_device rd;
@@ -29,10 +23,6 @@ void ThreadA::proccess()
 
         for(auto& elem: *block)
             elem = gen();
-
-        print_mutex.lock();
-        std::cout << "ThreadA#" << std::dec << std::this_thread::get_id() << " generate" << std::endl;
-        print_mutex.unlock();
 
         threadA_mutex.lock();
         if (m_blocks.size()<m_blk_count)
@@ -51,12 +41,6 @@ ThreadB::ThreadB(_tblocks& blocks, _tcrcs_per_block& crcs_per_block, size_t bloc
     m_crcs_per_block(crcs_per_block),
     m_blk_count(block_count),
     m_cur_block_idx(0)
-{
-
-}
-
-//*************************************************************************************
-ThreadB::~ThreadB()
 {
 
 }
@@ -82,10 +66,6 @@ void ThreadB::proccess()
         threadB_mutex.lock();
         m_crcs_per_block[m_cur_block_idx].push_back(crc32);
         threadB_mutex.unlock();
-
-        print_mutex.lock();
-        std::cout << std::dec << "ThreadB#"<<std::this_thread::get_id() << " calc CRC32 for block#"<< m_cur_block_idx << " = 0x"<<std::hex << crc32 << std::endl;
-        print_mutex.unlock();
 
         ++m_cur_block_idx;
     }

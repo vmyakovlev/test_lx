@@ -3,7 +3,7 @@
 
 ConfigParser::ConfigParser (int &argc, char **argv){
     path  = std::string(argv[0]);
-    std::string arg;//(argv[i]);
+    std::string arg;
     for (int i=1; i < argc; ++i)
     {
         arg = argv[i];
@@ -17,7 +17,7 @@ bool ConfigParser::OptionExists(const std::string &option) const{
 }
 
 //*************************************************************************************
-size_t ConfigParser::getNumericValueOption(const std::string &option) const
+size_t ConfigParser::GetNumericValueOption(const std::string &option) const
 {
     const size_t default_value(10);
 
@@ -25,7 +25,7 @@ size_t ConfigParser::getNumericValueOption(const std::string &option) const
     if (opt_itr != configs.end())
     {
         try{
-            return std::stoi(opt_itr->second);
+            return std::stoul(opt_itr->second);
         }catch(...)
         {
             //return default_value;
@@ -36,9 +36,9 @@ size_t ConfigParser::getNumericValueOption(const std::string &option) const
 }
 
 //*************************************************************************************
-const std::string& ConfigParser::getSringValueOption(const std::string &option) const
+const std::string& ConfigParser::GetSringValueOption(const std::string &option) const
 {
-    const std::string default_value("");
+    static std::string default_value("");
 
     const auto opt_itr = configs.find(option);
     if (opt_itr != configs.end())

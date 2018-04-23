@@ -6,7 +6,6 @@
 #include <mutex>
 
 
-static std::mutex print_mutex;
 static std::mutex threadA_mutex;
 static std::mutex threadB_mutex;
 
@@ -20,12 +19,10 @@ private:
 
 public:
     ThreadA(_tblocks& blocks, size_t block_count, size_t size);
-    virtual ~ThreadA();
+    virtual ~ThreadA(){}
 
     virtual void proccess();
 };
-
-
 
 
 class ThreadB: public ThreadBase
@@ -37,7 +34,7 @@ private:
     size_t m_cur_block_idx;
 public:
     ThreadB(_tblocks& blocks, _tcrcs_per_block& crcs_per_block, size_t block_count);
-    virtual ~ThreadB();
+    virtual ~ThreadB(){}
 
     virtual void proccess();
 

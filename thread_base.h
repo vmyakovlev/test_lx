@@ -19,7 +19,7 @@ public:
         if(m_thr.joinable())
             m_thr.join();
     }
-    virtual Stop()
+    virtual void Stop()
     {
         m_stop = true;
     }
